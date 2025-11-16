@@ -14,9 +14,9 @@ export function DashboardLayout({ children, sidebar }: DashboardLayoutProps) {
     <div className="min-h-screen bg-vanilla-cream-50">
       <div className={`fixed inset-0 bg-charcoal-900/50 z-40 lg:hidden transition-opacity ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={() => setSidebarOpen(false)}></div>
 
-      <aside className={`fixed top-0 left-0 z-50 h-full bg-white border-r border-graphite-200 transform transition-all duration-300 lg:translate-x-0 ${
+      <aside className={`fixed top-0 left-0 z-50 h-full bg-white border-r border-graphite-200 transform transition-all duration-300 ${
         isMinimized ? 'w-20' : 'w-64'
-      } ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      } ${sidebarOpen ? 'translate-x-0 lg:translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className={`flex items-center ${isMinimized ? 'justify-center' : 'justify-between'} p-6 border-b border-graphite-200`}>
           {!isMinimized && (
             <>
@@ -38,7 +38,7 @@ export function DashboardLayout({ children, sidebar }: DashboardLayoutProps) {
         </div>
       </aside>
 
-      <div className={`transition-all duration-300 ${isMinimized ? 'lg:pl-20' : 'lg:pl-64'}`}>
+      <div className={`transition-all duration-300 min-h-screen ${isMinimized ? 'pl-20' : 'pl-64'}`}>
         <header className="sticky top-0 z-30 bg-white border-b border-graphite-200">
           <div className="flex items-center justify-between px-6 py-4">
             <div className="flex items-center gap-4">

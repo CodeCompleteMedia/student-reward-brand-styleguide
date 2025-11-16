@@ -48,7 +48,7 @@ export function Sidebar({ isMinimized, onToggleMinimize }: SidebarProps) {
   ];
 
   return (
-    <nav className="py-6 relative">
+    <nav className="py-6 relative overflow-hidden">
       <button
         onClick={onToggleMinimize}
         className="absolute top-2 right-2 p-2 text-charcoal-600 hover:text-strong-cyan-600 hover:bg-vanilla-cream-50 rounded-lg transition-colors z-10 hidden lg:block"

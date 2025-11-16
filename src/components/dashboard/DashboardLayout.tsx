@@ -33,7 +33,7 @@ export function DashboardLayout({ children, sidebar }: DashboardLayoutProps) {
             <div className="w-10 h-10 bg-signature-gradient rounded-lg"></div>
           )}
         </div>
-        <div className="overflow-y-auto h-[calc(100vh-88px)]">
+        <div className="overflow-y-auto overflow-x-hidden h-[calc(100vh-88px)]">
           {sidebar({ isMinimized, onToggleMinimize: () => setIsMinimized(!isMinimized) })}
         </div>
       </aside>

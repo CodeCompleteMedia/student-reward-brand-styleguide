@@ -1,4 +1,4 @@
-import { LayoutDashboard, BarChart3, FileText, Settings, HelpCircle, TrendingUp, Users, Activity } from 'lucide-react';
+import { LayoutDashboard, BarChart3, FileText, Settings, HelpCircle, TrendingUp, Users, Activity, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 interface NavItem {
@@ -13,7 +13,12 @@ interface NavSection {
   items: NavItem[];
 }
 
-export function Sidebar() {
+interface SidebarProps {
+  isMinimized: boolean;
+  onToggleMinimize: () => void;
+}
+
+export function Sidebar({ isMinimized, onToggleMinimize }: SidebarProps) {
   const [activeItem, setActiveItem] = useState('Overview');
 
   const sections: NavSection[] = [
@@ -43,12 +48,22 @@ export function Sidebar() {
   ];
 
   return (
-    <nav className="py-6">
+    <nav className="py-6 relative">
+      <button
+        onClick={onToggleMinimize}
+        className="absolute top-2 right-2 p-2 text-charcoal-600 hover:text-strong-cyan-600 hover:bg-vanilla-cream-50 rounded-lg transition-colors z-10 hidden lg:block"
+        title={isMinimized ? 'Expand sidebar' : 'Minimize sidebar'}
+      >
+        {isMinimized ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
+      </button>
+
       {sections.map((section, idx) => (
         <div key={idx} className="mb-8">
-          <h3 className="px-6 mb-3 text-xs font-bold text-charcoal-500 uppercase tracking-wider">
-            {section.title}
-          </h3>
+          {!isMinimized && (
+            <h3 className="px-6 mb-3 text-xs font-bold text-charcoal-500 uppercase tracking-wider">
+              {section.title}
+            </h3>
+          )}
           <ul className="space-y-1">
             {section.items.map((item) => {
               const Icon = item.icon;
@@ -58,20 +73,30 @@ export function Sidebar() {
                 <li key={item.label}>
                   <button
                     onClick={() => setActiveItem(item.label)}
-                    className={`w-full flex items-center justify-between px-6 py-3 text-left transition-colors ${
+                    className={`w-full flex items-center ${isMinimized ? 'justify-center px-4' : 'justify-between px-6'} py-3 text-left transition-colors relative group ${
                       isActive
                         ? 'bg-strong-cyan-50 text-strong-cyan-700 border-r-4 border-strong-cyan-500'
                         : 'text-charcoal-600 hover:bg-vanilla-cream-50 hover:text-charcoal-900'
                     }`}
+                    title={isMinimized ? item.label : ''}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className={`flex items-center ${isMinimized ? '' : 'gap-3'}`}>
                       <Icon className={`w-5 h-5 ${isActive ? 'text-strong-cyan-600' : ''}`} />
-                      <span className="font-medium">{item.label}</span>
+                      {!isMinimized && <span className="font-medium">{item.label}</span>}
                     </div>
-                    {item.badge && (
+                    {!isMinimized && item.badge && (
                       <span className="px-2 py-1 text-xs font-bold bg-strong-cyan-500 text-white rounded-full">
                         {item.badge}
                       </span>
+                    )}
+                    {isMinimized && item.badge && (
+                      <span className="absolute top-2 right-2 w-2 h-2 bg-strong-cyan-500 rounded-full"></span>
+                    )}
+                    {isMinimized && (
+                      <div className="absolute left-full ml-2 px-3 py-2 bg-charcoal-900 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-50">
+                        {item.label}
+                        {item.badge && <span className="ml-2 px-2 py-0.5 text-xs bg-strong-cyan-500 rounded-full">{item.badge}</span>}
+                      </div>
                     )}
                   </button>
                 </li>
@@ -81,15 +106,17 @@ export function Sidebar() {
         </div>
       ))}
 
-      <div className="mx-6 mt-8 p-4 bg-gradient-to-br from-vanilla-cream-100 to-strong-cyan-50 rounded-xl border border-vanilla-cream-200">
-        <h4 className="font-headline font-bold text-charcoal-900 mb-2">Need Help?</h4>
-        <p className="text-sm text-charcoal-600 mb-4">
-          Check out our documentation and tutorials
-        </p>
-        <button className="w-full px-4 py-2 bg-signature-gradient text-white font-semibold rounded-lg hover:opacity-90 transition-opacity">
-          Get Started
-        </button>
-      </div>
+      {!isMinimized && (
+        <div className="mx-6 mt-8 p-4 bg-gradient-to-br from-vanilla-cream-100 to-strong-cyan-50 rounded-xl border border-vanilla-cream-200">
+          <h4 className="font-headline font-bold text-charcoal-900 mb-2">Need Help?</h4>
+          <p className="text-sm text-charcoal-600 mb-4">
+            Check out our documentation and tutorials
+          </p>
+          <button className="w-full px-4 py-2 bg-signature-gradient text-white font-semibold rounded-lg hover:opacity-90 transition-opacity">
+            Get Started
+          </button>
+        </div>
+      )}
     </nav>
   );
 }

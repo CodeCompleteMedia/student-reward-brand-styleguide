@@ -60,7 +60,7 @@ export function Dashboard() {
   ];
 
   return (
-    <DashboardLayout sidebar={<Sidebar />}>
+    <DashboardLayout sidebar={(props) => <Sidebar {...props} />}>
       <div className="space-y-8">
         <div>
           <h1 className="text-4xl font-headline font-bold text-charcoal-900 mb-2">Dashboard Overview</h1>

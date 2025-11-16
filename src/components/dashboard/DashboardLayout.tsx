@@ -3,32 +3,42 @@ import { Menu, X, Bell, Search, User } from 'lucide-react';
 
 interface DashboardLayoutProps {
   children: ReactNode;
-  sidebar: ReactNode;
+  sidebar: (props: { isMinimized: boolean; onToggleMinimize: () => void }) => ReactNode;
 }
 
 export function DashboardLayout({ children, sidebar }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   return (
     <div className="min-h-screen bg-vanilla-cream-50">
       <div className={`fixed inset-0 bg-charcoal-900/50 z-40 lg:hidden transition-opacity ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={() => setSidebarOpen(false)}></div>
 
-      <aside className={`fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-graphite-200 transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex items-center justify-between p-6 border-b border-graphite-200">
-          <div className="flex items-center gap-3">
+      <aside className={`fixed top-0 left-0 z-50 h-full bg-white border-r border-graphite-200 transform transition-all duration-300 lg:translate-x-0 ${
+        isMinimized ? 'w-20' : 'w-64'
+      } ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`flex items-center ${isMinimized ? 'justify-center' : 'justify-between'} p-6 border-b border-graphite-200`}>
+          {!isMinimized && (
+            <>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-signature-gradient rounded-lg"></div>
+                <span className="text-xl font-headline font-bold text-charcoal-900">Dashboard</span>
+              </div>
+              <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-charcoal-600 hover:text-charcoal-900">
+                <X className="w-6 h-6" />
+              </button>
+            </>
+          )}
+          {isMinimized && (
             <div className="w-10 h-10 bg-signature-gradient rounded-lg"></div>
-            <span className="text-xl font-headline font-bold text-charcoal-900">Dashboard</span>
-          </div>
-          <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-charcoal-600 hover:text-charcoal-900">
-            <X className="w-6 h-6" />
-          </button>
+          )}
         </div>
         <div className="overflow-y-auto h-[calc(100vh-88px)]">
-          {sidebar}
+          {sidebar({ isMinimized, onToggleMinimize: () => setIsMinimized(!isMinimized) })}
         </div>
       </aside>
 
-      <div className="lg:pl-64">
+      <div className={`transition-all duration-300 ${isMinimized ? 'lg:pl-20' : 'lg:pl-64'}`}>
         <header className="sticky top-0 z-30 bg-white border-b border-graphite-200">
           <div className="flex items-center justify-between px-6 py-4">
             <div className="flex items-center gap-4">

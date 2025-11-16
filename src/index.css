@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-body text-charcoal-800;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #f1edda 0%, #68c5ca 100%);
+  }
+
+  .gradient-text-reverse {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #68c5ca 0%, #f1edda 100%);
+  }
+
+  .gradient-border {
+    position: relative;
+    background: linear-gradient(135deg, #f1edda 0%, #68c5ca 100%);
+    padding: 2px;
+    border-radius: 0.5rem;
+  }
+
+  .gradient-border > * {
+    background: white;
+    border-radius: 0.4rem;
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .gradient-mesh {
+    background:
+      radial-gradient(at 0% 0%, #f1edda 0px, transparent 50%),
+      radial-gradient(at 100% 0%, #68c5ca 0px, transparent 50%),
+      radial-gradient(at 100% 100%, #42b7bd 0px, transparent 50%),
+      radial-gradient(at 0% 100%, #d4ca91 0px, transparent 50%);
+  }
+}

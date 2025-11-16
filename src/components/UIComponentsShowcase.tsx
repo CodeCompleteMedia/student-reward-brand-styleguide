@@ -11,6 +11,15 @@ export function UIComponentsShowcase() {
   const [activeTab, setActiveTab] = useState('all');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [profileForm, setProfileForm] = useState({
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'john.doe@example.com',
+    password: '',
+    photoUrl: ''
+  });
   const [sliderValue, setSliderValue] = useState(50);
   const [checkboxState, setCheckboxState] = useState(false);
   const [switchState, setSwitchState] = useState(false);
@@ -837,6 +846,16 @@ export function UIComponentsShowcase() {
                 </button>
               </div>
 
+              <div>
+                <h4 className="text-lg font-semibold text-charcoal-800 mb-4">Profile Form Modal</h4>
+                <button
+                  onClick={() => setIsProfileModalOpen(true)}
+                  className="px-6 py-3 bg-strong-cyan-500 text-white font-semibold rounded-lg hover:bg-strong-cyan-600 transition-colors"
+                >
+                  Open Profile Form
+                </button>
+              </div>
+
               <div className="p-6 bg-gradient-to-br from-vanilla-cream-50 to-strong-cyan-50 rounded-lg border border-strong-cyan-200">
                 <p className="text-charcoal-700 mb-2">
                   <strong>Interactive Example:</strong> Click the buttons above to see modal and drawer overlays in action.
@@ -1070,6 +1089,131 @@ export function UIComponentsShowcase() {
             <div className="mt-8">
               <button onClick={() => setIsDrawerOpen(false)} className="w-full px-6 py-3 bg-signature-gradient text-white font-semibold rounded-lg hover-lift">
                 Close Drawer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isProfileModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-6" onClick={() => setIsProfileModalOpen(false)}>
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white border-b border-graphite-200 px-8 py-6 flex items-center justify-between rounded-t-2xl">
+              <div>
+                <h3 className="text-2xl font-headline font-bold text-charcoal-900 mb-1">Edit Profile</h3>
+                <p className="text-sm text-charcoal-600">Update your personal information and settings</p>
+              </div>
+              <button onClick={() => setIsProfileModalOpen(false)} className="text-graphite-500 hover:text-charcoal-900 transition-colors">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="p-8">
+              <div className="space-y-6">
+                <div className="flex flex-col items-center pb-6 border-b border-graphite-200">
+                  <div className="relative group mb-4">
+                    <div className="w-24 h-24 bg-signature-gradient rounded-full flex items-center justify-center text-white text-3xl font-bold">
+                      {profileForm.photoUrl ? (
+                        <img src={profileForm.photoUrl} alt="Profile" className="w-full h-full rounded-full object-cover" />
+                      ) : (
+                        <span>{profileForm.firstName[0]}{profileForm.lastName[0]}</span>
+                      )}
+                    </div>
+                    <button className="absolute bottom-0 right-0 w-8 h-8 bg-strong-cyan-500 rounded-full flex items-center justify-center text-white hover:bg-strong-cyan-600 transition-colors shadow-lg">
+                      <Upload className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <button className="text-sm text-strong-cyan-600 font-semibold hover:text-strong-cyan-700 transition-colors">
+                    Upload new photo
+                  </button>
+                  <p className="text-xs text-graphite-500 mt-1">JPG, PNG or GIF. Max size 2MB.</p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-bold text-charcoal-800 mb-2">First Name</label>
+                    <input
+                      type="text"
+                      value={profileForm.firstName}
+                      onChange={(e) => setProfileForm({...profileForm, firstName: e.target.value})}
+                      className="w-full px-4 py-3 border-2 border-graphite-300 rounded-lg focus:border-strong-cyan-500 focus:outline-none transition-colors"
+                      placeholder="Enter first name"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-charcoal-800 mb-2">Last Name</label>
+                    <input
+                      type="text"
+                      value={profileForm.lastName}
+                      onChange={(e) => setProfileForm({...profileForm, lastName: e.target.value})}
+                      className="w-full px-4 py-3 border-2 border-graphite-300 rounded-lg focus:border-strong-cyan-500 focus:outline-none transition-colors"
+                      placeholder="Enter last name"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-charcoal-800 mb-2">Email Address</label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-graphite-400" />
+                    <input
+                      type="email"
+                      value={profileForm.email}
+                      onChange={(e) => setProfileForm({...profileForm, email: e.target.value})}
+                      className="w-full pl-11 pr-4 py-3 border-2 border-graphite-300 rounded-lg focus:border-strong-cyan-500 focus:outline-none transition-colors"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-charcoal-800 mb-2">Password</label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-graphite-400" />
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={profileForm.password}
+                      onChange={(e) => setProfileForm({...profileForm, password: e.target.value})}
+                      className="w-full pl-11 pr-12 py-3 border-2 border-graphite-300 rounded-lg focus:border-strong-cyan-500 focus:outline-none transition-colors"
+                      placeholder="Enter new password (optional)"
+                    />
+                    <button
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-graphite-400 hover:text-charcoal-700 transition-colors"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                  <p className="text-xs text-graphite-500 mt-1">Leave blank to keep current password</p>
+                </div>
+
+                <div className="p-4 bg-gradient-to-br from-vanilla-cream-50 to-strong-cyan-50 rounded-lg border border-strong-cyan-200">
+                  <div className="flex items-start gap-3">
+                    <Info className="w-5 h-5 text-strong-cyan-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-semibold text-charcoal-900 mb-1">Profile Visibility</p>
+                      <p className="text-xs text-charcoal-600">Your profile information is visible to all team members. Contact your administrator to change visibility settings.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="sticky bottom-0 bg-graphite-50 border-t border-graphite-200 px-8 py-6 flex gap-3 rounded-b-2xl">
+              <button
+                onClick={() => setIsProfileModalOpen(false)}
+                className="flex-1 px-6 py-3 border-2 border-graphite-300 text-charcoal-700 font-semibold rounded-lg hover:bg-white transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setIsProfileModalOpen(false);
+                }}
+                className="flex-1 px-6 py-3 bg-signature-gradient text-white font-semibold rounded-lg hover-lift"
+              >
+                Save Changes
               </button>
             </div>
           </div>

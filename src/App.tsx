@@ -3,6 +3,7 @@ import { TypographyShowcase } from './components/TypographyShowcase';
 import { ColorPalette } from './components/ColorPalette';
 import { GradientShowcase } from './components/GradientShowcase';
 import { ComponentLibrary } from './components/ComponentLibrary';
+import { UIComponentsShowcase } from './components/UIComponentsShowcase';
 import { Footer } from './components/Footer';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <ColorPalette />
       <GradientShowcase />
       <ComponentLibrary />
+      <UIComponentsShowcase />
       <Footer />
     </div>
   );

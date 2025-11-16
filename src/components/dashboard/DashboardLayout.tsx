@@ -11,7 +11,7 @@ export function DashboardLayout({ children, sidebar }: DashboardLayoutProps) {
   const [isMinimized, setIsMinimized] = useState(false);
 
   return (
-    <div className="min-h-screen bg-vanilla-cream-50">
+    <div className="min-h-screen bg-vanilla-cream-50 overflow-x-hidden">
       <div className={`fixed inset-0 bg-charcoal-900/50 z-40 lg:hidden transition-opacity ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={() => setSidebarOpen(false)}></div>
 
       <aside className={`fixed top-0 left-0 z-50 h-full bg-white border-r border-graphite-200 transform transition-all duration-300 ${
@@ -38,7 +38,7 @@ export function DashboardLayout({ children, sidebar }: DashboardLayoutProps) {
         </div>
       </aside>
 
-      <div className={`transition-all duration-300 min-h-screen ${isMinimized ? 'pl-20' : 'pl-64'}`}>
+      <div className={`transition-all duration-300 min-h-screen overflow-x-hidden ${isMinimized ? 'pl-20' : 'pl-64'}`}>
         <header className="sticky top-0 z-30 bg-white border-b border-graphite-200">
           <div className="flex items-center justify-between px-6 py-4">
             <div className="flex items-center gap-4">
@@ -46,12 +46,12 @@ export function DashboardLayout({ children, sidebar }: DashboardLayoutProps) {
                 <Menu className="w-6 h-6" />
               </button>
 
-              <div className="relative hidden md:block">
+              <div className="relative hidden md:block max-w-full">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-charcoal-400" />
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="pl-10 pr-4 py-2 w-80 bg-vanilla-cream-50 border border-graphite-200 rounded-lg text-charcoal-900 placeholder-charcoal-400 focus:outline-none focus:ring-2 focus:ring-strong-cyan-500 focus:border-transparent"
+                  className="pl-10 pr-4 py-2 w-full max-w-xs lg:max-w-sm xl:max-w-md bg-vanilla-cream-50 border border-graphite-200 rounded-lg text-charcoal-900 placeholder-charcoal-400 focus:outline-none focus:ring-2 focus:ring-strong-cyan-500 focus:border-transparent"
                 />
               </div>
             </div>

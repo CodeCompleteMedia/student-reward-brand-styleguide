@@ -48,16 +48,9 @@ export function Sidebar({ isMinimized, onToggleMinimize }: SidebarProps) {
   ];
 
   return (
-    <nav className="py-6 relative overflow-hidden">
-      <button
-        onClick={onToggleMinimize}
-        className="absolute top-2 right-2 p-2 text-charcoal-600 hover:text-strong-cyan-600 hover:bg-vanilla-cream-50 rounded-lg transition-colors z-10 hidden lg:block"
-        title={isMinimized ? 'Expand sidebar' : 'Minimize sidebar'}
-      >
-        {isMinimized ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
-      </button>
-
-      {sections.map((section, idx) => (
+    <nav className="py-6 relative overflow-hidden flex flex-col h-full">
+      <div className="flex-1">
+        {sections.map((section, idx) => (
         <div key={idx} className="mb-8">
           {!isMinimized && (
             <h3 className="px-6 mb-3 text-xs font-bold text-charcoal-500 uppercase tracking-wider">
@@ -105,18 +98,26 @@ export function Sidebar({ isMinimized, onToggleMinimize }: SidebarProps) {
           </ul>
         </div>
       ))}
+      </div>
 
-      {!isMinimized && (
-        <div className="mx-6 mt-8 p-4 bg-gradient-to-br from-vanilla-cream-100 to-strong-cyan-50 rounded-xl border border-vanilla-cream-200">
-          <h4 className="font-headline font-bold text-charcoal-900 mb-2">Need Help?</h4>
-          <p className="text-sm text-charcoal-600 mb-4">
-            Check out our documentation and tutorials
-          </p>
-          <button className="w-full px-4 py-2 bg-signature-gradient text-white font-semibold rounded-lg hover:opacity-90 transition-opacity">
-            Get Started
-          </button>
-        </div>
-      )}
+      <div className="mt-auto pt-4 border-t border-graphite-200">
+        <button
+          onClick={onToggleMinimize}
+          className={`w-full flex items-center ${isMinimized ? 'justify-center px-4' : 'justify-between px-6'} py-3 text-charcoal-600 hover:bg-vanilla-cream-50 hover:text-charcoal-900 transition-colors rounded-lg mx-auto ${isMinimized ? 'max-w-min' : ''}`}
+          title={isMinimized ? 'Expand sidebar' : 'Minimize sidebar'}
+        >
+          <div className={`flex items-center ${isMinimized ? '' : 'gap-3'}`}>
+            {isMinimized ? (
+              <ChevronRight className="w-5 h-5" />
+            ) : (
+              <>
+                <ChevronLeft className="w-5 h-5" />
+                <span className="font-medium">Minimize</span>
+              </>
+            )}
+          </div>
+        </button>
+      </div>
     </nav>
   );
 }
